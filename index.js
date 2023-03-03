@@ -18,10 +18,11 @@ mongoose
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
 
 // Add home page
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("home"); //neglect .ejs
 });
 
 // Add product index route
@@ -29,6 +30,23 @@ app.get("/products", async (req, res) => {
   const products = await Product.find({}); //we swait some mongoose operation lik find/update/delete
   // let respond with a template
   res.render("products/index", { products }); //it is possible to neglect .ejs at the end of index
+});
+
+// Add a route for add new product and render a form
+app.get("/products/new", (req, res) => {
+  res.render("products/new"); //neglect .ejs
+});
+
+//Set up route to submit add product form
+app.post("/products", async (req, res) => {
+  // when we want information from post request body
+  // we don't have access to request body immediately-it is UNDEFINED-it's not going to be parsed
+  // we need to tell express to use that middleware
+  // app.use(express.urlencoded({ extended: true }));
+  const newProduct = new Product(req.body);
+  // (req.body)={ name: 'onion', price: '1', category: 'vegetable' }
+  await newProduct.save();
+  res.redirect(`/products/${newProduct.id}`);
 });
 
 // Add product details route
