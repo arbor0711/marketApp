@@ -19,9 +19,11 @@ mongoose
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-// Add basic routes
-app.get("/dog", (req, res) => {
-  res.send("woof");
+// Add product index route
+app.get("/products", async (req, res) => {
+  const products = await Product.find({}); //we swait some mongoose operation lik find/update/delete
+  // let respond with a template
+  res.render("products/index", { products }); //it is possible to neglect .ejs at the end of index
 });
 
 app.listen(3000, () => {
