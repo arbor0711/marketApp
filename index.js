@@ -4,6 +4,7 @@ const path = require("path");
 //integrate Mongoose
 const mongoose = require("mongoose");
 //Remember to run Mongo in the background
+const methodOverride = require("method-override");
 
 // require model from product.js
 const Product = require("./models/product");
@@ -19,6 +20,7 @@ mongoose
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 // Add home page
 app.get("/", (req, res) => {
@@ -47,6 +49,27 @@ app.post("/products", async (req, res) => {
   // (req.body)={ name: 'onion', price: '1', category: 'vegetable' }
   await newProduct.save();
   res.redirect(`/products/${newProduct.id}`);
+});
+
+// route for editing product
+app.get("/products/:id/edit", async (req, res) => {
+  const { id } = req.params; //destructuring object
+  const product = await Product.findById(id);
+  res.render("products/edit", { product });
+});
+
+//route for updating form - USE method-override HELP:
+// npm install method-override
+// var methodOverride = require('method-override')
+// app.use(methodOverride('X-HTTP-Method-Override'))
+// <form action="/products/<%= product._id %>?_method=PUT" method="POST"> in edit.ejs
+app.put("/products/:id", async (req, res) => {
+  const { id } = req.params; //destructuring object
+  const product = await Product.findByIdAndUpdate(id, req.body, {
+    runValidators: true,
+    new: true,
+  });
+  res.redirect(`/products/${product._id}`);
 });
 
 // Add product details route

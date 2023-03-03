@@ -13,6 +13,8 @@
       <li>category: <%= product.category %></li>
     </ul>
     <br />
-    <a href="/products">Back to all</a>
+    <button><a href="/products/<%= product.id %>/edit">Edit</a></button>
+    <button><a href="/products">All Products</a></button>
+    <button><a href="/">Home</a></button>
   </body>
 </html>
