@@ -4,8 +4,12 @@ const path = require("path");
 //integrate Mongoose
 const mongoose = require("mongoose");
 //Remember to run Mongo in the background
+
+// require model from product.js
+const Product = require("./models/product");
+
 mongoose
-  .connect("mongodb://127.0.0.1:27017/shopApp")
+  .connect("mongodb://127.0.0.1:27017/farmStand")
   .then(() => console.log("Mongo Connection Open."))
   .catch((err) => {
     console.log("!!!Mongo Connection ERROR!!!");
