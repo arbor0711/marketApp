@@ -22,10 +22,9 @@
       <label for="category">Select Category</label>
       <br />
       <select name="category" id="category">
-        <option value="">--select one--</option>
-        <option value="vegetable">Vegetable</option>
-        <option value="fruit">Fruit</option>
-        <option value="dairy">Dairy</option>
+        <% for (let category of categories){ %>
+        <option value="<%= category %>"><%= category %></option>
+        <% } %>
       </select>
 
       <br />

@@ -8,6 +8,9 @@ const methodOverride = require("method-override");
 
 // require model from product.js
 const Product = require("./models/product");
+const { categories } = require("./models/product");
+console.log(categories);
+console.log("after");
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/farmStand")
@@ -29,14 +32,14 @@ app.get("/", (req, res) => {
 
 // Add product index route
 app.get("/products", async (req, res) => {
-  const products = await Product.find({}); //we swait some mongoose operation lik find/update/delete
+  const products = await Product.find({}); //we wait some mongoose operation lik find/update/delete
   // let respond with a template
   res.render("products/index", { products }); //it is possible to neglect .ejs at the end of index
 });
 
 // Add a route for add new product and render a form
 app.get("/products/new", (req, res) => {
-  res.render("products/new"); //neglect .ejs
+  res.render("products/new", { categories }); //neglect .ejs
 });
 
 //Set up route to submit add product form
@@ -55,7 +58,7 @@ app.post("/products", async (req, res) => {
 app.get("/products/:id/edit", async (req, res) => {
   const { id } = req.params; //destructuring object
   const product = await Product.findById(id);
-  res.render("products/edit", { product });
+  res.render("products/edit", { product, categories });
 });
 
 //route for updating form - USE method-override HELP:

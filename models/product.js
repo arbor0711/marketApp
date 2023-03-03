@@ -2,6 +2,9 @@
 // there is no need to connect database here, because it will be required in index.js
 const mongoose = require("mongoose");
 
+let categories = ["Fruit", "vegetable", "dairy"];
+categories = categories.map((item) => item.toLowerCase()).sort();
+
 // make Schema
 const productSchema = new mongoose.Schema({
   name: {
@@ -16,7 +19,7 @@ const productSchema = new mongoose.Schema({
   category: {
     type: String,
     lowercase: true,
-    enum: ["fruit", "vegetable", "dairy"],
+    enum: categories,
   },
 });
 
@@ -25,3 +28,4 @@ const Product = mongoose.model("Product", productSchema);
 
 // export from this file
 module.exports = Product;
+module.exports.categories = categories;
