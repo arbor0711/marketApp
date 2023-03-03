@@ -19,6 +19,11 @@ mongoose
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+// Add home page
+app.get("/", (req, res) => {
+  res.render("home");
+});
+
 // Add product index route
 app.get("/products", async (req, res) => {
   const products = await Product.find({}); //we swait some mongoose operation lik find/update/delete
