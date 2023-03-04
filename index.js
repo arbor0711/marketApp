@@ -75,6 +75,13 @@ app.put("/products/:id", async (req, res) => {
   res.redirect(`/products/${product._id}`);
 });
 
+//route for Deleting Button - USE method-override HELP:
+app.delete("/products/:id", async (req, res) => {
+  const { id } = req.params; //destructuring object
+  const deletedProduct = await Product.findByIdAndDelete(id);
+  res.redirect("/products");
+});
+
 // Add product details route
 // we cannot use the name of products for finding process, due to the similarity and more inportance for spaces inside the names, it is not safe for url that includes space.
 // we also should use a url that be unique and somehow readable for human. slugify
