@@ -13,8 +13,15 @@
       <li>category: <%= product.category %></li>
     </ul>
     <br />
-    <button><a href="/products/<%= product.id %>/edit">Edit</a></button>
+    <button><a href="/products/<%= product.id %>/edit"> Edit </a></button>
+    <form
+      action="/products/<%= product._id %>?_method=DELETE"
+      method="post"
+      style="display: inline"
+    >
+      <button>Delete</button>
+    </form>
     <button><a href="/products">All Products</a></button>
-    <button><a href="/">Home</a></button>
+    <button><a href="/"> Home </a></button>
   </body>
 </html>
