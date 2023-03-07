@@ -32,9 +32,18 @@ app.get("/", (req, res) => {
 
 // Add product index route
 app.get("/products", async (req, res) => {
-  const products = await Product.find({}); //we wait some mongoose operation lik find/update/delete
+  // Add filters
+  const { category } = req.query;
+  if (category) {
+    const products = await Product.find({ category }); //we wait some mongoose operation lik find/update/delete
+    res.render("products/index", { products, category }); //it is possible to neglect .ejs at the end of index
+  } else {
+    const products = await Product.find({});
+    res.render("products/index", { products, category: "All" }); //it is possible to neglect .ejs at the end of index
+  }
+
+  console.log(category);
   // let respond with a template
-  res.render("products/index", { products }); //it is possible to neglect .ejs at the end of index
 });
 
 // Add a route for add new product and render a form
